@@ -2,12 +2,30 @@
 {% block content %}
 
 
-    <div style ="height: 20rem; background-color: #38df81; border-radius: 1rem; margin: 2rem;">
+    <div style ="border-radius: 1rem; margin: 2rem; text-align: center">
 
-        <h1>
+        <h1 style="font-family: 'Squada One', cursive;">
             마 테서터다.
         </h1>
 
+        <form action="/account/hello_world/" method="post">
+            {% csrf_token %}
+            <div>
+                <input type="text" name="hello_world_input">
+            </div>
+            <div>
+                    <!--자 이제 어떤, 인터렉션 같은 게 필요-->
+                <input type="submit" class="btn btn-primary" value="POST버튼">
+            </div>
+
+
+        </form>
+
+        {% if hello_world_output %}
+        <h1>
+            {{ hello_world_output.text }}
+        </h1>
+        {% endif %}
     </div>
 
 
