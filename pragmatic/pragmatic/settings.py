@@ -19,10 +19,10 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+##############
 # reading .env file
 environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, '.env')
@@ -32,16 +32,16 @@ environ.Env.read_env(
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+##############
+SECRET_KEY = env('SECRET_KEY')  ##############
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
+##############
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -82,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pragmatic.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -92,7 +91,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -112,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -126,11 +123,26 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+############## python manage.py collectstatic ;
+############## 프로젝트 내 모든 static file들을 어느 한군데로 모을 수 있다!
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+############## + 특정 앱에 종속받지 않는, 프로젝트 전체 static 폴더 관리를 위해!
+############## static files 디렉토리를 따로 지정할 수 있다
+############## 보통 static file을 앱 내부에서 찾는데, 인위적으로 디렉토리 추가해서
+############## 앱에 종속되지 않게
+
+STATICFILES_DIR = [
+    BASE_DIR / "static",
+]
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
