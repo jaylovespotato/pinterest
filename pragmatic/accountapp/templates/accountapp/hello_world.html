@@ -21,10 +21,12 @@
 
         </form>
 
-        {% if hello_world_output %}
+        {% if hello_world_list %}
+            {% for elt in hello_world_list %}
         <h1>
-            {{ hello_world_output.text }}
+            {{ elt.text }}
         </h1>
+        {% endfor %}
         {% endif %}
     </div>
 
