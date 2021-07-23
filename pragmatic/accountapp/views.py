@@ -32,3 +32,4 @@ class AccountCreateView(CreateView):
     template_name = 'accountapp/create.html'
 
 
+#로그인 로그아웃 view는 지정해야할 것이 많지 않음. 그냥 url에서 바로 해줌.

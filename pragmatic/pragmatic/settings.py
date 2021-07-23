@@ -14,6 +14,8 @@ import environ
 import os
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -67,6 +69,7 @@ ROOT_URLCONF = 'pragmatic.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        ############## 템플릿츠 추가
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -141,7 +144,9 @@ STATICFILES_DIR = [
     BASE_DIR / "static",
 ]
 
-
+############## login 리다이렉트 추가 (next 다음 순위)
+LOGIN_REDIRECT_URL = reverse_lazy('accountapp:hello_world')
+LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
 
 
 # Default primary key field type
