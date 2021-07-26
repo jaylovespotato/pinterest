@@ -154,3 +154,11 @@ LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+############## 미디어 추가
+MEDIA_URL = '/media/'
+
+############## python manage.py collectstatic ;
+############## 프로젝트 내 모든 static file들을 어느 한군데로 모을 수 있다!
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
