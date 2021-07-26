@@ -1,29 +1,41 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .accountupdateform import AccountUpdateForm
+from .decorator import account_ownership_required
 from .models import HelloWorld
 
 
+has_ownership = [
+    account_ownership_required, login_required
+]
+
+
+# @login_required
 def hello_world(request):
-    if request.method == "POST":
+    if request.user.is_authenticated:
+        if request.method == "POST":
 
-        temp = request.POST.get("hello_world_input")
+            temp = request.POST.get("hello_world_input")
 
-        new_hello_world = HelloWorld()
-        new_hello_world.text = temp
-        new_hello_world.save()
+            new_hello_world = HelloWorld()
+            new_hello_world.text = temp
+            new_hello_world.save()
 
-        hello_world_list = HelloWorld.objects.all()
+            hello_world_list = HelloWorld.objects.all()
 
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+            return HttpResponseRedirect(reverse('accountapp:hello_world'))
+        else:
+            hello_world_list = HelloWorld.objects.all()
+            return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
     else:
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
+        return HttpResponseRedirect(reverse('accountapp:login'))
 
 
 class AccountCreateView(CreateView):
@@ -35,6 +47,7 @@ class AccountCreateView(CreateView):
 
 # 로그인 로그아웃 view는 지정해야할 것이 많지 않음. 그냥 url에서 바로 해줌.
 
+
 class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
@@ -43,6 +56,8 @@ class AccountDetailView(DetailView):
     template_name = 'accountapp/detail.html'
 
 
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):
     model = User
     context_object_name = 'target_user'
@@ -52,9 +67,10 @@ class AccountUpdateView(UpdateView):
     template_name = 'accountapp/update.html'
 
 
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
-
