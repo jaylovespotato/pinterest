@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .accountupdateform import AccountUpdateForm
 from .models import HelloWorld
@@ -37,14 +37,24 @@ class AccountCreateView(CreateView):
 
 class AccountDetailView(DetailView):
     model = User
-    template_name = 'accountapp/detail.html'
+    context_object_name = 'target_user'
     # 템플릿에서 사용하는 유저 객체의 이름을 다르게 설정.
     # 이 페이지의 주인임. 접속한 사람은 user이고.
-    context_object_name = 'target_user'
+    template_name = 'accountapp/detail.html'
+
 
 class AccountUpdateView(UpdateView):
     model = User
+    context_object_name = 'target_user'
     # form_class = UserCreationForm
     form_class = AccountUpdateForm
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
+
+
+class AccountDeleteView(DeleteView):
+    model = User
+    context_object_name = 'target_user'
+    success_url = reverse_lazy('accountapp:login')
+    template_name = 'accountapp/delete.html'
+
