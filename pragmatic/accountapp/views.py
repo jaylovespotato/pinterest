@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from .models import HelloWorld
 
@@ -32,4 +32,10 @@ class AccountCreateView(CreateView):
     template_name = 'accountapp/create.html'
 
 
-#로그인 로그아웃 view는 지정해야할 것이 많지 않음. 그냥 url에서 바로 해줌.
+# 로그인 로그아웃 view는 지정해야할 것이 많지 않음. 그냥 url에서 바로 해줌.
+
+class AccountDetailView(DetailView):
+    model = User
+    # 템플릿에서 사용하는 유저 객체의 이름을 다르게 설정.
+    context_object_name = 'target_user'
+    template_name = 'accountapp/detail.html'
