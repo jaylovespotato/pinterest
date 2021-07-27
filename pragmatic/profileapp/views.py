@@ -25,6 +25,7 @@ class ProfileCreateView(CreateView):
 
         # 이거는 우리가 실제 DB에 안넣고 서버단에서 임시저장하는 부분
         # form 은 위에서 받아온 저 form임
+        # commit=False로 해서 임시 역할
         temp_profile = form.save(commit=False)
         temp_profile.user = self.request.user
         temp_profile.save()

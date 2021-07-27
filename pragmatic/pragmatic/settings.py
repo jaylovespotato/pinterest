@@ -136,21 +136,20 @@ STATIC_URL = '/static/'
 
 ############## python manage.py collectstatic ;
 ############## 프로젝트 내 모든 static file들을 어느 한군데로 모을 수 있다!
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 ############## + 특정 앱에 종속받지 않는, 프로젝트 전체 static 폴더 관리를 위해!
 ############## static files 디렉토리를 따로 지정할 수 있다
 ############## 보통 static file을 앱 내부에서 찾는데, 인위적으로 디렉토리 추가해서
 ############## 앱에 종속되지 않게
 
-STATICFILES_DIR = [
-    BASE_DIR / "static",
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
 ]
 
 ############## login 리다이렉트 추가 (next 다음 순위)
 LOGIN_REDIRECT_URL = reverse_lazy('accountapp:hello_world')
 LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -163,4 +162,3 @@ MEDIA_URL = '/media/'
 ############## python manage.py collectstatic ;
 ############## 프로젝트 내 모든 static file들을 어느 한군데로 모을 수 있다!
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
