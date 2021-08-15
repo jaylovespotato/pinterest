@@ -3,7 +3,6 @@
 
 <div>
     <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
-
         <img src="{{ target_project.image.url }}" alt=""
              style="height: 8rem; width: 8rem; border-radius: 10rem; object-fit: cover;">
         <h2 style="font-family: 'NamumSquare8'">
@@ -12,6 +11,9 @@
         <h5 style="margin-bottom:3rem;">
             {{ target_project.description }}
         </h5>
+        <div>
+            {% include 'snippets/list_fragment.html' with article_list=object_list %}
+        </div>
     </div>
 </div>
 {% endblock content %}

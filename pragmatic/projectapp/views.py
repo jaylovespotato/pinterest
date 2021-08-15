@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic.list import MultipleObjectMixin
 
 from .form import ProjectCreationForm
 from .models import Project
+from articleapp.models import Article
 
 
 class ProjectCreateView(CreateView):
@@ -22,7 +24,16 @@ class ProjectListView(ListView):
     paginate_by = 25
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(DetailView, MultipleObjectMixin):
     model = Project
     context_object_name = "target_project"
     template_name = "projectapp/detail.html"
+
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        # obj_list에다가
+        # 현재 프로젝트의 오브젝트와 같은 프로젝트를 가진 아티클을 모두 필터링
+        object_list = Article.objects.filter(project = self.get_object())
+        return super(ProjectDetailView, self).get_context_data(object_list=object_list, **kwargs)
+

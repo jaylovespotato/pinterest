@@ -6,11 +6,12 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from .accountupdateform import AccountUpdateForm
 from .decorator import account_ownership_required
 from .models import HelloWorld
-
+from articleapp.models import Article
 
 has_ownership = [
     account_ownership_required, login_required
@@ -48,12 +49,19 @@ class AccountCreateView(CreateView):
 # 로그인 로그아웃 view는 지정해야할 것이 많지 않음. 그냥 url에서 바로 해줌.
 
 
-class AccountDetailView(DetailView):
+class AccountDetailView(DetailView, MultipleObjectMixin):
     model = User
     context_object_name = 'target_user'
     # 템플릿에서 사용하는 유저 객체의 이름을 다르게 설정.
     # 이 페이지의 주인임. 접속한 사람은 user이고.
     template_name = 'accountapp/detail.html'
+
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(writer=self.get_object())
+        return super(AccountDetailView, self).get_context_data(object_list=object_list)
+
 
 
 
