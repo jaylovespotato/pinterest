@@ -7,6 +7,8 @@ from .form import ProjectCreationForm
 from .models import Project
 from articleapp.models import Article
 
+from subscribeapp.models import Subscription
+
 
 class ProjectCreateView(CreateView):
     model = Project
@@ -32,8 +34,19 @@ class ProjectDetailView(DetailView, MultipleObjectMixin):
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
+
+        project = self.object
+        user = self.request.user
+
+        if user.is_authenticated:
+            subscription = Subscription.objects.filter(user=user, project=project)
+        else:
+            subscription = None
+
         # obj_list에다가
         # 현재 프로젝트의 오브젝트와 같은 프로젝트를 가진 아티클을 모두 필터링
-        object_list = Article.objects.filter(project = self.get_object())
-        return super(ProjectDetailView, self).get_context_data(object_list=object_list, **kwargs)
+        object_list = Article.objects.filter(project=self.get_object())
 
+        return super(ProjectDetailView, self).get_context_data(object_list=object_list,
+                                                               subscription=subscription,
+                                                               **kwargs)
