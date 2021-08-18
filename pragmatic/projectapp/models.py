@@ -8,3 +8,7 @@ class Project(models.Model):
     description = models.CharField(max_length=200, null=True)
 
     created_at = models.DateField(auto_now=True, null=True)
+
+    def __str__(self):
+
+        return f'{self.pk} : {self.title}'

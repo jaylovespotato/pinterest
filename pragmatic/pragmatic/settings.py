@@ -151,7 +151,7 @@ STATICFILES_DIRS = [
 ]
 
 ############## login 리다이렉트 추가 (next 다음 순위)
-LOGIN_REDIRECT_URL = reverse_lazy('accountapp:hello_world')
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
 
 # Default primary key field type
